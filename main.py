@@ -18,5 +18,5 @@ model.add(DenseLayer(1, 16, learning_rate))
 model.add(SigmoidLayer())
 
 model.add(LossLayer())
-model.train(inputs, expected_result, epoch = 500)
+model.train(inputs, expected_result, epoch = 3000)
 model.prediction(inputs)
