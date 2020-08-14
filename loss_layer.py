@@ -8,7 +8,5 @@ class LossLayer:
         self.output_layer = input
         return self.output_layer
 
-    def backward (self, input): 
-            
-        loss = self.output_layer - input
-        return loss
+    def backward (self, input):          
+        return self.output_layer - input
