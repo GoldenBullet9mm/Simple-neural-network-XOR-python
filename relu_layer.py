@@ -3,17 +3,15 @@ import numpy as np
 class ReLuLayer:
 
     def __init__(self):
-        self.output_layer = 0
+        self.cache = 0
 
     def forward(self, input):
         
-        activation = np.maximum(0, input)
-        self.output_layer = activation
-        return activation
+        relu = np.maximum(0, input)
+        self.cache = relu
+        return relu
 
     def backward(self, input):
 
-        data_in = input        
-        self.output_layer[self.output_layer < 0] = 0
-        delta = data_in * self.output_layer
-        return delta
+        relu_Prime = np.where(self.cache > 0, 1.0, 0.0)
+        return input * relu_Prime

@@ -1,12 +1,12 @@
 class LossLayer:
 
     def __init__(self):
-        self.output_layer = 0
+        self.cache = 0
 
     def forward(self, input):
 
-        self.output_layer = input
-        return self.output_layer
+        self.cache = input
+        return self.cache
 
     def backward (self, input):          
-        return self.output_layer - input
+        return self.cache - input

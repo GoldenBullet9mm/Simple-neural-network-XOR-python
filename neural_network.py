@@ -2,13 +2,26 @@ import sys
 import numpy as np
 from decimal import Decimal
 
+def forward(in_data, layers):
+    for i in range(len(layers)):
+        train_out = layers[i].forward(in_data)
+        in_data = train_out
+    return train_out
+
+def backpropagation(in_data, layers):
+    for b in layers[::-1]:
+        data_out = b.backward(in_data)
+        in_data = data_out
+    return data_out
+
 def mse_loss(label, prediction):
     return np.mean((label - prediction) ** 2)
 
-def write_statistic(label, prediction, iter, epoch):
+def write_statistic(label, prediction, layers, iter, epoch):   
 
+    train_out = forward(prediction, layers)
     iter += 1   
-    loss = mse_loss(label, prediction)                     
+    loss = mse_loss(label, train_out)                     
     percent =  100 * iter / epoch
     sys.stdout.write("\rProgress: {}%, loss: {}".format
     (str(Decimal(percent).quantize(Decimal('.1'))),
@@ -20,27 +33,31 @@ class Network:
     def add(self, layer):
         self.layers.append(layer)
              
-    def train(self, in_data, expected_result, epoch):
-             
-        for iteration in range (epoch):
+    def train(self, train_data, label, batch_size, epoch):
+        num_packet = train_data.shape[0]      
+        for iteration in range (epoch):                                             
+            for batch_iteration in range (0, num_packet, batch_size):
+            
+                if batch_iteration + batch_size < num_packet: 
+                                      
+                    inputs = train_data[batch_iteration: batch_iteration + batch_size]
+                    forward(inputs, self.layers)
+                                                                                       
+                    targets = label[batch_iteration: batch_iteration + batch_size]                                
+                    backpropagation(targets, self.layers)
 
-            inputs = in_data
-            for i in range(len(self.layers)):
-                train_out = self.layers[i].forward(inputs)
-                inputs = train_out
+                else:
 
-            write_statistic(expected_result, train_out, iteration, epoch)
-                              
-            targets = expected_result                                
-            for b in self.layers[::-1]:
-                data_out = b.backward(targets)
-                targets = data_out
+                    inputs = train_data[batch_iteration: num_packet]
+                    forward(inputs, self.layers)
+                                                                       
+                    targets = label[batch_iteration: num_packet]                                
+                    backpropagation(targets, self.layers)
+            write_statistic(label, train_data, self.layers, iteration, epoch)
            
     def prediction (self, input_data):
 
-        for i in range(len(self.layers)):
-                data_out = self.layers[i].forward(input_data)
-                input_data = data_out
+        data_out = forward(input_data, self.layers)
         print("\n\n Prediction: ")
         print(data_out)
 
