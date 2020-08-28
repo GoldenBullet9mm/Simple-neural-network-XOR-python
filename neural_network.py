@@ -34,11 +34,11 @@ class Network:
         self.layers.append(layer)
              
     def train(self, train_data, label, batch_size, epoch):
-        num_packet = train_data.shape[0]      
+        num_batch = train_data.shape[0]      
         for iteration in range (epoch):                                             
-            for batch_iteration in range (0, num_packet, batch_size):
+            for batch_iteration in range (0, num_batch, batch_size):
             
-                if batch_iteration + batch_size < num_packet: 
+                if batch_iteration + batch_size < num_batch: 
                                       
                     inputs = train_data[batch_iteration: batch_iteration + batch_size]
                     forward(inputs, self.layers)
@@ -48,10 +48,10 @@ class Network:
 
                 else:
 
-                    inputs = train_data[batch_iteration: num_packet]
+                    inputs = train_data[batch_iteration: num_batch]
                     forward(inputs, self.layers)
                                                                        
-                    targets = label[batch_iteration: num_packet]                                
+                    targets = label[batch_iteration: num_batch]                                
                     backpropagation(targets, self.layers)
             write_statistic(label, train_data, self.layers, iteration, epoch)
            
