@@ -12,7 +12,6 @@ def backpropagation(in_data, layers):
     for b in layers[::-1]:
         data_out = b.backward(in_data)
         in_data = data_out
-    return data_out
 
 def mse_loss(label, prediction):
     return np.mean((label - prediction) ** 2)
@@ -34,7 +33,8 @@ class Network:
         self.layers.append(layer)
              
     def train(self, train_data, label, batch_size, epoch):
-        num_batch = train_data.shape[0]      
+        num_batch = train_data.shape[0]
+        self.label = label      
         for iteration in range (epoch):                                             
             for batch_iteration in range (0, num_batch, batch_size):
             
@@ -57,7 +57,10 @@ class Network:
            
     def prediction (self, input_data):
 
-        data_out = forward(input_data, self.layers)
-        print("\n\n Prediction: ")
-        print(data_out)
-
+        data_out = forward(input_data, self.layers)        
+        num_package = 0
+        print('\n')
+        for i in range(len(data_out)):
+            num_package +=1         
+            print("{})XOR:{}, expected result:{}, prediction:{}".
+                  format(num_package, input_data[i], self.label[i], data_out[i]))
