@@ -41,7 +41,7 @@ model.add(LossLayer())
 ```
 And so we built our neural network. Now we need to train it.
 Calling the method train. 
-We write our data. We write the size of the batch 1, 
+We write our data, and size of the batch 1, 
 and we write epochs, i will have 500 epochs.
 ```
 model.train(inputs, expected_result, batch_size = 1, epoch = 500)
@@ -51,3 +51,21 @@ And we write inputs.
 ```
 model.prediction(inputs)
 ```
+Output after 500 iterations
+```
+Train on 6 samples
+Progress: 100.0%, loss: 0.000022
+
+1)XOR:[0 0 0], expected result:[0], prediction:[0.00777994]
+2)XOR:[0 1 0], expected result:[1], prediction:[0.99923895]
+3)XOR:[1 0 0], expected result:[1], prediction:[0.99788799]
+4)XOR:[1 1 0], expected result:[1], prediction:[0.99998886]
+5)XOR:[0 1 1], expected result:[1], prediction:[0.99782905]
+6)XOR:[1 1 1], expected result:[0], prediction:[0.00777994]
+Press any key to continue . . .
+```
+Well done! Our neural network works!
+I hope this library will help you understand how neural networks work, how layers are built.
+Experiment with layers, neurons and learning rate. 
+Good luck!
+
